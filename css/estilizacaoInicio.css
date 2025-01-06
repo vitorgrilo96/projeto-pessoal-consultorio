@@ -1,0 +1,37 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+header {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+header img {
+    max-width: 100px;
+    height: auto;
+}
+main {
+    padding: 20px;
+    text-align: center;
+}
+main h3, main h4 {
+    color: #333;
+}
+main a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: bold;
+}
+footer {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
