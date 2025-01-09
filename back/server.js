@@ -52,7 +52,7 @@ app.get('/consultas', async (req, res) => {
             return res.status(403).json({ message: 'Acesso negado.' });
         }
 
-        const consultas = await pool.query('SELECT * FROM consultas'); // Exemplo de tabela de consultas
+        const consultas = await pool.query('SELECT * FROM consultas');
         res.json(consultas.rows);
     } catch (err) {
         console.error(err);
@@ -62,3 +62,36 @@ app.get('/consultas', async (req, res) => {
 
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+
+app.post('/agendar', async (req, res) => {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) return res.status(403).json({ message: 'Token não fornecido.' });
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decoded.id;
+
+        const { data, hora, motivo } = req.body;
+
+        if (!data || !hora || !motivo) {
+            return res.status(400).json({ message: 'Data, hora e motivo são obrigatórios.' });
+        }
+
+        const userResult = await pool.query('SELECT nome, email FROM usuarios WHERE id = $1', [userId]);
+        if (userResult.rows.length === 0) {
+            return res.status(404).json({ message: 'Usuário não encontrado.' });
+        }
+
+        const { nome, email } = userResult.rows[0];
+
+        const result = await pool.query(
+            'INSERT INTO consultas (nome, email, data, hora, motivo) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+            [nome, email, data, hora, motivo]
+        );
+
+        res.status(201).json({ message: 'Consulta agendada com sucesso!', consulta: result.rows[0] });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Erro ao agendar consulta.' });
+    }
+});
