@@ -1,0 +1,22 @@
+CREATE TABLE consultas (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    data DATE NOT NULL,
+    hora TIME NOT NULL,
+    motivo VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE usuarios (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100),
+    email VARCHAR(100) UNIQUE NOT NULL,
+    senha TEXT NOT NULL,
+    papel VARCHAR(20) CHECK(papel IN ('admin', 'usuario')) DEFAULT 'usuario'
+);
+
+INSERT INTO usuarios (nome, email, senha, papel)
+VALUES ('vitor', 'vitorluizalcantaragrilo@gmail.com', 'ruru1212', 'admin');
+
+SELECT * FROM consultas
+SELECT * FROM usuarios

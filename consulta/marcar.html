@@ -33,7 +33,7 @@
 </head>
 <body>
     <h2>Marcar Consulta</h2>
-    <form action="marcar_consulta.php" method="POST">
+    <form action="marcar_consulta.php" method="POST" id="formAgendarConsulta">
         <label for="data">Data:</label>
         <input type="date" id="data" name="data" required>
 
@@ -54,6 +54,7 @@
         <input type="text" id="motivo" name="motivo" required>
 
         <button type="submit">Agendar</button>
+        <script src="back/agendarConsulta.js"></script>
     </form>
 </body>
 </html>
